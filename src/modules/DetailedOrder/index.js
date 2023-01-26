@@ -1,11 +1,13 @@
 import { Card, Description, Divider, List, Button, Descriptions } from "antd";
+import { useParams } from "react-router-dom";
 import dishes from "../../data/data/dashboard/dishes.json";
 const CreateDetailedOrder = () => {
+    const {id} = useParams();
     const total = dishes.reduce((sum,dish)=>{
         return sum + (dish.quantity * dish.price)
     }, 0);
     return(
-        <Card title={'Order Number'} style={styles.page}>
+        <Card title={`Order Number ${id}`} style={styles.page}>
             <Descriptions bordered column={{lg:1,md:1,sm:1}}>
                 <Descriptions.Item label='Order Status'>Approved</Descriptions.Item>
                 <Descriptions.Item label='Customer'>Bryce Fadako</Descriptions.Item>
