@@ -11,7 +11,7 @@ const CreateOrder = () => {
         DataStore.query(Order).then(setOrders);
     });
 
-    console.log(orders);
+    //console.log(orders);
 
     
     const renderOrderStatus = (orderStatus) => {
