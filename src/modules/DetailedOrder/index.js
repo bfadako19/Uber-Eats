@@ -2,7 +2,7 @@ import { Card,Divider, List, Button, Descriptions, Tag, Spin } from "antd";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { DataStore } from "aws-amplify";
-import { Order,User,OrderDish,Dish } from '../../models';
+import { Order,User,OrderDish,Dish, OrderStatus } from '../../models';
 
 const statusToColor ={
     PENDING : 'blue',
@@ -56,6 +56,25 @@ const CreateDetailedOrder = () => {
         fetchDishes();
     },[orderDishes]);
 
+    const acceptedOrder = async () =>{
+        const updateOrder = await DataStore.save(Order.copyOf(order, updated => {
+            updated.status = OrderStatus.ACCEPTED;
+        }));
+        setOrder(updateOrder);
+    };
+    const declinedOrder = async () =>{
+        const updateOrder = await DataStore.save(Order.copyOf(order, updated => {
+            updated.status = OrderStatus.DECLINED;
+        }));
+        setOrder(updateOrder);
+    };
+     const foodIsDone = async () =>{
+        const updateOrder = await DataStore.save(Order.copyOf(order, updated => {
+            updated.status = OrderStatus.COMPLETED;
+        }));
+        setOrder(updateOrder);
+    };
+
     if(!order){
         return <Spin size='large' />
     }
@@ -94,6 +113,7 @@ const CreateDetailedOrder = () => {
                     type ='primary'
                     size = 'large'
                     style = {styles.button}
+                    onClick={declinedOrder}
                     
                 >
                     Decline Order
@@ -104,6 +124,7 @@ const CreateDetailedOrder = () => {
                     type ='primary'
                     size = 'large'
                     style = {styles.button}
+                    onClick={acceptedOrder}
                     
                 >
                     Accept Order
@@ -114,6 +135,7 @@ const CreateDetailedOrder = () => {
                     type ='default'
                     size = 'large'
                     style = {styles.button}
+                    onClick={foodIsDone}
                     
                 >
                     Food Is Done
