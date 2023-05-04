@@ -25,6 +25,10 @@ const SideMenu = () => {
             label: 'Create Restaurant'
         },
         {
+            key: 'other',
+            label: 'Other Restaurants'
+        },
+        {
             key: 'signout',
             label: 'Sign Out'
         }
